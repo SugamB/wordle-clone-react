@@ -55,6 +55,7 @@ function App() {
   let [message, setMessage] = useState('')
   let [messageBool, setMessageBool] = useState(false)
 
+  // let [count, setCount] = useState(0)
   // let currentRow = 0
   // let currentTile = 0
   // let isGameOver = false
@@ -68,8 +69,8 @@ function App() {
         return
       }
       if (letter === 'ENTER') {
-        console.log(entry, "entry");
-        console.log(color, "color");
+        // console.log(entry, "entry");
+        // console.log(color, "color");
         checkRow()
         return
       }
@@ -168,19 +169,46 @@ function App() {
   }
 
   const flipTile = () => {
+    let checkWordle = wordle.split('')
+    let guessRowCopy = [...entry]
     let colorRowCopy = [...color]
-    // colorRowCopy[currentRow][currentTile] = "grey-overlay"
 
-    let rowArray = colorRowCopy[currentRow].map(item => { return item = " grey-overlay" })
-    // colorRowCopy[currentRow].map((row, i) => {
-    //   return row[i] = "grey-overlay"
-    // })
-    colorRowCopy[currentRow] = rowArray
+    let count = 0
+
+    let guess = entry[currentRow].join('')
+
+
+    colorRowCopy[currentRow] = colorRowCopy[currentRow].map((item, idx) => {
+
+      let checkIndex = checkWordle.indexOf(guess[idx])
+
+      // if (guess[idx] === checkWordle[idx]) {
+      //   item = "green-overlay"
+      // } else if (checkWordle.includes(guess[idx])) {
+      //   item = "yellow-overlay"
+      // } else {
+      //   item = "grey-overlay"
+      // }
+
+      item = "grey-overlay"
+      if (checkWordle[idx] === guess[idx]) { item = "green-overlay" }
+      if (item !== "green-overlay" && checkIndex !== -1) {
+        item = "yellow-overlay"
+      }
+      const removeStr = guess[idx] //variable
+      const regex = new RegExp(removeStr, 'g'); // correct way
+      guess = guess.replace(regex, '1'); // it works
+
+      console.log(guess);
+
+      return item
+    })
+
+    // colorRowCopy[currentRow] = rowArray
     console.log(colorRowCopy);
     setColor(colorRowCopy)
   }
-
-
+  // setTimeout(() => {}, 500 * index)
   return (
     <div className="game-container">
       <div className="title-container">
@@ -193,9 +221,20 @@ function App() {
         {entry.map((guessRow, guessRowIndex) => {
           return <div id={"guessRow-" + guessRowIndex}>
             {guessRow.map((guess, guessIndex) => {
+
               // console.log(guess, "guess");
               // console.log(color[guessRowIndex][guessIndex], "color with index");
-              return <div className={"tile -" + color[guessRowIndex][guessIndex]} id={"guessRow-" + guessRowIndex + "-tile-" + guessIndex}>
+              // console.log(color[guessRowIndex][guessIndex].length, "length");
+
+              // if (color[guessRowIndex][guessIndex].length > 0) {
+              //   setTimeout(() => {
+              //     return <div className={"tile -" + color[guessRowIndex][guessIndex]} id={"guessRow-" + guessRowIndex + "-tile-" + guessIndex}>
+              //       {guess}
+              //     </div>
+              //   }, 2000 * guessIndex)
+              // }
+
+              return <div className={"tile - " + color[guessRowIndex][guessIndex]} id={"guessRow-" + guessRowIndex + "-tile-" + guessIndex}>
                 {guess}
               </div>
             })}
