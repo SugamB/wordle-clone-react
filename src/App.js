@@ -189,7 +189,7 @@ function App() {
   return (
     <div className="game-container" tabIndex={-1} onKeyUp={(event) => handleClick(event.key)}>
       <div className="title-container">
-        <h1>Wordle</h1>
+        <h1>Wordle Clone</h1>
       </div>
       <div className="message-container">
         {message.length > 0 && messageBool && showMessage(message)}
