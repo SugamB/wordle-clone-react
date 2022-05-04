@@ -1,2 +1,2 @@
-# wordle-clone-react
-Wordle Clone with HTML, CSS, REACT
+# https://sugamb.github.io/wordle-clone-react/
+Wordle Clone with HTML, CSS, REACTJS
