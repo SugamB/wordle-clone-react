@@ -60,11 +60,15 @@ function App() {
   // let currentTile = 0
   // let isGameOver = false
 
+
   const handleClick = (letter) => {
-    // console.log(letter, "clicked");
+    letter = letter.toUpperCase();
+
+
+    console.log(letter, "clicked");
 
     if (!isGameOver) {
-      if (letter === 'DELETE') {
+      if (letter === 'DELETE' || letter === 'BACKSPACE') {
         deleteLetter()
         return
       }
@@ -74,7 +78,7 @@ function App() {
         checkRow()
         return
       }
-      addLetter(letter)
+      if (letter.length === 1 && letter.match(/[a-z]/i)) addLetter(letter)
     }
   }
   // console.log(currentTile, "currTile outside");
@@ -130,37 +134,6 @@ function App() {
 
   }
 
-  // const checkRow = () => {
-  //   const guess = guessRows[currentRow].join('')
-  //   if (currentTile > 4) {
-  //     fetch(`http://localhost:8000/check/?word=${guess}`)
-  //       .then(response => response.json())
-  //       .then(json => {
-  //         if (json == 'Entry word not found') {
-  //           showMessage('word not in list')
-  //           return
-  //         } else {
-  //           flipTile()
-  //           if (wordle == guess) {
-  //             showMessage('Magnificent!')
-  //             isGameOver = true
-  //             return
-  //           } else {
-  //             if (currentRow >= 5) {
-  //               isGameOver = true
-  //               showMessage('Game Over')
-  //               return
-  //             }
-  //             if (currentRow < 5) {
-  //               currentRow++
-  //               currentTile = 0
-  //             }
-  //           }
-  //         }
-  //       }).catch(err => console.log(err))
-  //   }
-  // }
-
   const showMessage = (message) => {
     setTimeout(() => { setMessageBool(false) }, 2000)
     // let pclass="hidden"
@@ -190,14 +163,18 @@ function App() {
       //   item = "grey-overlay"
       // }
 
+
+      //need to find the index of the letter in the keyboard array
+      //then update the keyboard color array with the new color
+      //using the state
       item = "grey-overlay"
       if (checkWordle[idx] === guess[idx]) { item = "green-overlay" }
       if (item !== "green-overlay" && checkIndex !== -1) {
         item = "yellow-overlay"
       }
-      const removeStr = guess[idx] //variable
-      const regex = new RegExp(removeStr, 'g'); // correct way
-      guess = guess.replace(regex, '1'); // it works
+      const removeStr = guess[idx] 
+      const regex = new RegExp(removeStr, 'g'); 
+      guess = guess.replace(regex, '1'); 
 
       console.log(guess);
 
@@ -210,7 +187,7 @@ function App() {
   }
   // setTimeout(() => {}, 500 * index)
   return (
-    <div className="game-container">
+    <div className="game-container" tabIndex={-1} onKeyUp={(event) => handleClick(event.key)}>
       <div className="title-container">
         <h1>Wordle</h1>
       </div>
@@ -221,19 +198,6 @@ function App() {
         {entry.map((guessRow, guessRowIndex) => {
           return <div id={"guessRow-" + guessRowIndex}>
             {guessRow.map((guess, guessIndex) => {
-
-              // console.log(guess, "guess");
-              // console.log(color[guessRowIndex][guessIndex], "color with index");
-              // console.log(color[guessRowIndex][guessIndex].length, "length");
-
-              // if (color[guessRowIndex][guessIndex].length > 0) {
-              //   setTimeout(() => {
-              //     return <div className={"tile -" + color[guessRowIndex][guessIndex]} id={"guessRow-" + guessRowIndex + "-tile-" + guessIndex}>
-              //       {guess}
-              //     </div>
-              //   }, 2000 * guessIndex)
-              // }
-
               return <div className={"tile - " + color[guessRowIndex][guessIndex]} id={"guessRow-" + guessRowIndex + "-tile-" + guessIndex}>
                 {guess}
               </div>
