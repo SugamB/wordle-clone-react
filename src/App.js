@@ -187,6 +187,7 @@ function App() {
   }
   // setTimeout(() => {}, 500 * index)
   return (
+    <div>
     <div className="game-container" tabIndex={-1} onKeyUp={(event) => handleClick(event.key)}>
       <div className="title-container">
         <h1>Wordle Clone</h1>
@@ -210,6 +211,7 @@ function App() {
           return <button id={key} onClick={() => handleClick(key)}>{key}</button>
         })}
       </div>
+    </div>
     </div>
   );
 }
